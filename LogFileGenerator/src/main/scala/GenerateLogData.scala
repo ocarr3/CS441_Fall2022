@@ -9,22 +9,23 @@
  */
 import Generation.{LogMsgSimulator, RandomStringGenerator}
 import HelperUtils.{CreateLogger, Parameters}
+import org.slf4j.Logger
 
-import collection.JavaConverters.*
-import scala.concurrent.{Await, Future, duration}
-import concurrent.ExecutionContext.Implicits.global
+import scala.collection.JavaConverters.*
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future, duration}
 import scala.util.{Failure, Success, Try}
 
 object GenerateLogData:
-  val logger = CreateLogger(classOf[GenerateLogData.type])
+  val logger: Logger = CreateLogger(classOf[GenerateLogData.type])
 
 //this is the main starting point for the log generator
 @main def runLogGenerator =
-  import Generation.RSGStateMachine.*
-  import Generation.*
-  import HelperUtils.Parameters.*
   import GenerateLogData.*
+  import Generation.*
+  import Generation.RSGStateMachine.*
+  import HelperUtils.Parameters.*
 
   logger.info("Log data generator started...")
   val INITSTRING = "Starting the string generation"

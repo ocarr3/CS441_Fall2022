@@ -7,10 +7,10 @@
 
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Daily rollover -->
-            <fileNamePattern>log/LogFileGenerator.%d{yyyy-MM-dd}.log</fileNamePattern>
-
+            <fileNamePattern>log/LogFileGenerator.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1GB</maxFileSize>
             <maxHistory>100</maxHistory>
         </rollingPolicy>
 
@@ -19,9 +19,30 @@
         </encoder>
     </appender>
 
-    <!-- Configure so that it outputs to both console and log file -->
-    <root level="debug">
-        <appender-ref ref="FILE" />
+    <appender name="MR-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Daily rollover -->
+            <fileNamePattern>MRLogs/LogFileGenerator.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5GB</maxFileSize>
+            <maxHistory>50</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name = "loggen-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name = "mr-logger" level="DEBUG" additivity="false">
+        <appender-ref ref="MR-FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
     </root>
+
 </configuration>
