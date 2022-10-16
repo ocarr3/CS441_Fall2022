@@ -6,6 +6,7 @@ import edu.uic.cs441.HW1Utils.HW1CreateLogger
 
 import scala.util.{Failure, Success, Try}
 
+// Grab config file for for the application 
 object HW1ObtainConfigReference:
   private val config = ConfigFactory.load("HW1Configs")
   private val logger = HW1CreateLogger(classOf[HW1ObtainConfigReference.type])

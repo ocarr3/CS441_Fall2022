@@ -2,12 +2,14 @@ package edu.uic.cs441
 package HW1Utils
 
 import com.typesafe.config.Config
-
 import scala.collection.immutable.ListMap
 import scala.util.{Failure, Success, Try}
 import collection.JavaConverters.asScalaBufferConverter
 import collection.JavaConverters.collectionAsScalaIterableConverter
 import collection.JavaConverters.iterableAsScalaIterableConverter 
+
+// Return paramters set in HW1Configs.conf for use in the application
+
 
 object HW1Params:
 
@@ -71,11 +73,13 @@ object HW1Params:
   val maximumInterval: ConfigType2Process[String] = getParam("maxTime", "23:59:59.999")
   val inputPathTask1: ConfigType2Process[String] = getParam("inputPathTask1", "src/main/resources/input")
   val outputPathTask1: ConfigType2Process[String] = getParam("outputPathTask1", "src/main/resources/output")
-  val secInterval: ConfigType2Process[Int] = getParam("secInterval", 30)
+  val secInterval: ConfigType2Process[String] = getParam("secInterval", "00:00:30.000")
   val inputPathTask2: ConfigType2Process[String] = getParam("inputPathTask2", "src/main/resources/input2")
   val outputPathTask2: ConfigType2Process[String] = getParam("outputPathTask2", "src/main/resources/output2")
   val inputPathTask3: ConfigType2Process[String] = getParam("inputPathTask3", "src/main/resources/input3")
   val outputPathTask3: ConfigType2Process[String] = getParam("outputPathTask3", "src/main/resources/output3")
   val inputPathTask4: ConfigType2Process[String] = getParam("inputPathTask4", "src/main/resources/input4")
   val outputPathTask4: ConfigType2Process[String] = getParam("outputPathTask4", "src/main/resources/output4")
+  val sortInputTask2: ConfigType2Process[String] = getParam("sortInputTask2", "src/main/resources/output2/part-00000")
+  val sortOutputTask2: ConfigType2Process[String] = getParam("sortOutputTask2", "src/main/resources/output2Sort/")
 

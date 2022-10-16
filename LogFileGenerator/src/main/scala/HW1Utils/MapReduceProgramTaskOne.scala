@@ -32,10 +32,12 @@ def compareTimeInterval(log : String, min: String, max:String) : Boolean =
   }
   return false
 
+// Mapper and Reducer code for Task 1: Show distribution of different types of log messages across predefined time intervals and injected string instances
+
 class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable] :
   private final val one = new IntWritable(1)
   private val word = new Text()
-  val pattern: Regex = "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}".r
+  val pattern: Regex = "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}".r // Regex from application.conf to check for injected string instances
 
   @throws[IOException]
   override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
@@ -57,7 +59,6 @@ class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritabl
 
 class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable] :
   override def reduce(key: Text, values: util.Iterator[IntWritable], output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-
     val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
     output.collect(key, new IntWritable(sum.get()))
 

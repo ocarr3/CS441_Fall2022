@@ -31,7 +31,7 @@
         </encoder>
     </appender>
 
-    <logger name = "loggen-logger" level="DEBUG" additivity="false">
+    <logger name = "HelperUtils.Parameters$" level="DEBUG" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT" />
     </logger>
