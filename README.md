@@ -1,5 +1,4 @@
-# CS441_Fall2022 
-Submission by Omar Carrillo
+# CS441_Fall2022 Submission by Omar Carrillo
 Welcome to my submission for Homework 1. Below I will layout the files in my program and their uses. Video link for EMR: https://www.youtube.com/watch?v=7R4U8fRmB4M
 
 # Configuration Files (src/main/resources) 
