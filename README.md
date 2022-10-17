@@ -1,5 +1,6 @@
 # CS441_Fall2022 Submission by Omar Carrillo
 Welcome to my submission for Homework 1. Below I will layout the files in my program and their uses. Video link for EMR: https://www.youtube.com/watch?v=7R4U8fRmB4M
+Code based inside of LogFileGenerator.
 
 # Configuration Files (src/main/resources) 
 Added configuration files much like the ones included for LogFileGenerator as HW1Configs.conf. This file allows users to write in specific input and output directories for each of the tasks and using a utility they are fetched inside the program for use. It also allows for the passing of parameters that change the task's behavior like  inputting a time interval for limiting the logs mapped. Values input in the config files should be of the format asked for.
