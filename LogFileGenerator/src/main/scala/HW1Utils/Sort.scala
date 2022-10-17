@@ -44,8 +44,8 @@ import scala.concurrent.ExecutionContextExecutor
   class SortProgram(){
     def runMapReduce(inputPath: String, outputPath: String): Boolean =
       val conf: JobConf = new JobConf(this.getClass)
-      conf.setJobName("WordCount")
-      conf.set("fs.defaultFS", "local")
+      conf.setJobName("Sort")
+      //conf.set("fs.defaultFS", "local")
       conf.set("mapreduce.job.maps", "1")
       conf.set("mapred.textoutputformat.separator", ",")
       conf.setOutputKeyClass(classOf[IntWritable])
@@ -53,7 +53,7 @@ import scala.concurrent.ExecutionContextExecutor
       conf.setMapperClass(classOf[Sort])
       conf.setInputFormat(classOf[TextInputFormat])
       conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
-      FileInputFormat.setInputPaths(conf, new Path(inputPath))
+      MultipleInputs.addInputPath(conf, new Path(inputPath), classOf[TextInputFormat])
       FileOutputFormat.setOutputPath(conf, new Path(outputPath))
       JobClient.runJob(conf)
       return true

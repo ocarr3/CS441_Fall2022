@@ -50,7 +50,7 @@ class MapReduceProgram3(){
   def runMapReduce(inputPath: String, outputPath : String) : Boolean =
     val conf: JobConf = new JobConf(this.getClass)
     conf.setJobName("MapReduceTaskOne")
-    conf.set("fs.defaultFS", "local")
+    //conf.set("fs.defaultFS", "local")
     conf.set("mapreduce.job.maps", "10")
     conf.set("mapreduce.job.reduces", "1")
     conf.set("mapred.textoutputformat.separator", ",")

@@ -25,7 +25,10 @@ lazy val root = (project in file("."))
     idePackagePrefix := Some("edu.uic.cs441")
   )
 
-
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", _*) => MergeStrategy.discard
+  case _                        => MergeStrategy.first
+}
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-core" % logbackVersion,

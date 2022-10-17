@@ -21,7 +21,7 @@ object GenerateLogData:
   val logger: Logger = CreateLogger(classOf[GenerateLogData.type])
 
 //this is the main starting point for the log generator
-@main def runLogGenerator =
+def runLogGenerator() =
   import GenerateLogData.*
   import Generation.*
   import Generation.RSGStateMachine.*
