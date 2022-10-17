@@ -8,26 +8,25 @@ import org.apache.hadoop.mapred.*
 import org.apache.hadoop.mapred.lib.MultipleInputs
 import org.apache.hadoop.util.*
 
-import scala.util.matching.Regex
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util
+import scala.concurrent.ExecutionContext.global
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.io.Source
 import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 import scala.sys.process.*
-import scala.concurrent.ExecutionContext.global
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutor
+import scala.util.matching.Regex
 
 
-def compareTimeInterval(log : String, min: String, max:String) : Boolean =
+def compareTimeInterval(log: String, min: String, max: String): Boolean =
   val format = new SimpleDateFormat("HH:mm:ss.SSS")
   val dateString = log.substring(0, log.indexOf(" "))
   val logDate = format.parse(dateString)
   val minTime = format.parse(min)
   val maxTime = format.parse(max)
-  if(logDate.before(maxTime) && logDate.after(minTime)){
+  if (logDate.before(maxTime) && logDate.after(minTime)) {
     return true
   }
   return false
@@ -62,9 +61,10 @@ class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWrit
     val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
     output.collect(key, new IntWritable(sum.get()))
 
-class MapReduceProgram(val minTimeInterval : String, val maxStringInterval : String){
+class MapReduceProgram(val minTimeInterval: String, val maxStringInterval: String) {
   implicit val ec: ExecutionContextExecutor = ExecutionContext.global
-  def runMapReduce(inputPath: String, outputPath : String) : Boolean =
+
+  def runMapReduce(inputPath: String, outputPath: String): Boolean =
     val conf: JobConf = new JobConf(this.getClass)
     conf.setJobName("MapReduceTaskOne")
     //conf.set("fs.defaultFS", "local")

@@ -32,12 +32,12 @@
         </encoder>
     </appender>
 
-    <logger name = "HelperUtils.Parameters$" level="DEBUG" additivity="false">
+    <logger name="HelperUtils.Parameters$" level="DEBUG" additivity="false">
         <appender-ref ref="FILE"/>
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name = "mr-logger" level="DEBUG" additivity="false">
+    <logger name="mr-logger" level="DEBUG" additivity="false">
         <appender-ref ref="MR-FILE"/>
         <appender-ref ref="STDOUT"/>
     </logger>

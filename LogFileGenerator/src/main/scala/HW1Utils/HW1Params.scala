@@ -2,11 +2,10 @@ package edu.uic.cs441
 package HW1Utils
 
 import com.typesafe.config.Config
+
+import scala.collection.JavaConverters.{asScalaBufferConverter, collectionAsScalaIterableConverter, iterableAsScalaIterableConverter}
 import scala.collection.immutable.ListMap
 import scala.util.{Failure, Success, Try}
-import collection.JavaConverters.asScalaBufferConverter
-import collection.JavaConverters.collectionAsScalaIterableConverter
-import collection.JavaConverters.iterableAsScalaIterableConverter 
 
 // Return paramters set in HW1Configs.conf for use in the application
 
@@ -69,6 +68,7 @@ object HW1Params:
   end getParam
 
   import scala.concurrent.duration.*
+
   val minimumInterval: ConfigType2Process[String] = getParam("minTime", "00:00:00:000")
   val maximumInterval: ConfigType2Process[String] = getParam("maxTime", "23:59:59.999")
   val inputPathTask1: ConfigType2Process[String] = getParam("inputPathTask1", "src/main/resources/input")

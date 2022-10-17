@@ -31,7 +31,7 @@ class RandomStringGeneratorTest extends AnyFlatSpec with Matchers with PrivateMe
 
   it should "generate a random string whose length is greater than the min length" in {
     val generationStep = init(rsg)
-    generationStep._2.length shouldBe >= (minStringLength)
+    generationStep._2.length shouldBe >=(minStringLength)
   }
 
   it should "generate two different random strings consecutively" in {
@@ -53,26 +53,26 @@ class RandomStringGeneratorTest extends AnyFlatSpec with Matchers with PrivateMe
 
   it should "return the same input string if the constructed random string is zero length" in {
     val someString = "someString"
-    val rsg = RandomStringGenerator((1,2), 1)
+    val rsg = RandomStringGenerator((1, 2), 1)
     val callConstruct = PrivateMethod[String]('constructString)
-    val result:String = rsg invokePrivate callConstruct(someString, 0)
+    val result: String = rsg invokePrivate callConstruct(someString, 0)
     result should fullyMatch regex someString
   }
 
   it should "return a random string whose length is greater or equal to the one of the base string" in {
     val someString = "someString"
-    val rsg = RandomStringGenerator((1,10), 1)
+    val rsg = RandomStringGenerator((1, 10), 1)
     val callConstruct = PrivateMethod[String]('constructString)
-    val result:String = rsg invokePrivate callConstruct(someString, 0)
-    result.length shouldBe >= (someString.length)
+    val result: String = rsg invokePrivate callConstruct(someString, 0)
+    result.length shouldBe >=(someString.length)
   }
 
   it should "return a random string that starts with the base string" in {
     val someString = "someString"
-    val rsg = RandomStringGenerator((1,10), 1)
+    val rsg = RandomStringGenerator((1, 10), 1)
     val callConstruct = PrivateMethod[String]('constructString)
-    val result:String = rsg invokePrivate callConstruct(someString, 10)
-    result startsWith(someString)
+    val result: String = rsg invokePrivate callConstruct(someString, 10)
+    result startsWith (someString)
   }
 
 }

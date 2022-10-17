@@ -22,13 +22,13 @@ case class RandomStringGenerator(val lengthRange: Tuple2[Int, Int], val seed: Lo
   private val rg = new Random(seed)
   val generex: Generex = new Generex(Parameters.generatingPattern)
 
-  private def constructString(inp:String, len: Int): String =
-    if len <= 0 then inp else constructString(inp+rg.nextPrintableChar, len - 1)
+  private def constructString(inp: String, len: Int): String =
+    if len <= 0 then inp else constructString(inp + rg.nextPrintableChar, len - 1)
 
-  def  next: Tuple2[RandomStringGenerator, String] =
-    val length =  rg.nextInt(lengthRange._2) + lengthRange._1
-    val patternString = constructString(rg.nextPrintableChar().toString, length/2).concat(if rg.nextFloat() < Parameters.patternFrequency then generex.random() else "")
-    val resultString = patternString + constructString(rg.nextPrintableChar().toString, length/2)
+  def next: Tuple2[RandomStringGenerator, String] =
+    val length = rg.nextInt(lengthRange._2) + lengthRange._1
+    val patternString = constructString(rg.nextPrintableChar().toString, length / 2).concat(if rg.nextFloat() < Parameters.patternFrequency then generex.random() else "")
+    val resultString = patternString + constructString(rg.nextPrintableChar().toString, length / 2)
     (RandomStringGenerator(lengthRange, if (resultString.hashCode > seed) resultString.hashCode - seed else resultString.hashCode + seed), resultString)
 }
 

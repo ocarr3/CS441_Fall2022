@@ -8,17 +8,16 @@ import org.apache.hadoop.mapred.*
 import org.apache.hadoop.mapred.lib.MultipleInputs
 import org.apache.hadoop.util.*
 
-import scala.util.matching.Regex
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util
+import scala.concurrent.ExecutionContext.global
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.io.Source
 import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 import scala.sys.process.*
-import scala.concurrent.ExecutionContext.global
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutor
+import scala.util.matching.Regex
 
 class Map4 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable] :
   private final val one = new IntWritable(1)
@@ -38,7 +37,7 @@ class Map4 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritab
         val categoryString = typeString.substring(0, typeString.indexOf(" "))
         val characters = new IntWritable(genString.length)
         // For the mapper not much other than tokenizing the line into the information we need which is the log type, the reducer is doing the "heavy lifting"
-        if(regexFound.isDefined) {
+        if (regexFound.isDefined) {
           word.set(categoryString)
           output.collect(word, characters)
         }
@@ -60,9 +59,10 @@ class Reduce4 extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWri
     // Result of this is the highest value left mapped to the unique log type
     output.collect(key, new IntWritable(sum.get()))
 
-class MapReduceProgram4(){
+class MapReduceProgram4() {
   implicit val ec: ExecutionContextExecutor = ExecutionContext.global
-  def runMapReduce(inputPath: String, outputPath : String) : Boolean =
+
+  def runMapReduce(inputPath: String, outputPath: String): Boolean =
     val conf: JobConf = new JobConf(this.getClass)
     conf.setJobName("MapReduceTaskOne")
     //conf.set("fs.defaultFS", "local")

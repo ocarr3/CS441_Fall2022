@@ -1,8 +1,8 @@
 package HelperUtils
 
+import scala.collection.JavaConverters.*
 import scala.collection.immutable.ListMap
 import scala.util.{Failure, Success, Try}
-import scala.collection.JavaConverters.*
 
 /*
  *
@@ -36,7 +36,7 @@ object Parameters:
 
   //comparing double values should be done within certain precision
   private val COMPARETHREASHOLD = 0.00001d
-  implicit private val comp: Ordering[Double] = new Ordering[Double] { 
+  implicit private val comp: Ordering[Double] = new Ordering[Double] {
     def compare(x: Double, y: Double) =
       if math.abs(x - y) <= COMPARETHREASHOLD then 0 else if x - y > COMPARETHREASHOLD then -1 else 1
   }

@@ -6,19 +6,19 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.*
 import org.apache.hadoop.mapred.*
 import org.apache.hadoop.mapred.lib.MultipleInputs
+import org.apache.hadoop.mapreduce.lib.input.FileSplit
 import org.apache.hadoop.util.*
-import scala.util.matching.Regex
+
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util
+import scala.concurrent.ExecutionContext.global
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.io.Source
 import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 import scala.sys.process.*
-import scala.concurrent.ExecutionContext.global
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutor
-import org.apache.hadoop.mapreduce.lib.input.FileSplit
+import scala.util.matching.Regex
 
 
 class Map3 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable] :
@@ -45,9 +45,10 @@ class Reduce3 extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWri
 
     output.collect(key, new IntWritable(sum.get()))
 
-class MapReduceProgram3(){
+class MapReduceProgram3() {
   implicit val ec: ExecutionContextExecutor = ExecutionContext.global
-  def runMapReduce(inputPath: String, outputPath : String) : Boolean =
+
+  def runMapReduce(inputPath: String, outputPath: String): Boolean =
     val conf: JobConf = new JobConf(this.getClass)
     conf.setJobName("MapReduceTaskOne")
     //conf.set("fs.defaultFS", "local")

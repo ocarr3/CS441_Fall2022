@@ -8,7 +8,7 @@ import scala.util.{Failure, Success, Try}
 // Create logger from logback.xml to begin login for mapreduce tasks
 
 object HW1CreateLogger:
-  def apply[T](class4Logger: Class[T]):Logger =
+  def apply[T](class4Logger: Class[T]): Logger =
     val HW1LOGBACKXML = "logback.xml"
     val logger = LoggerFactory.getLogger("mr-logger")
     Try(getClass.getClassLoader.getResourceAsStream(HW1LOGBACKXML)) match {

@@ -9,29 +9,32 @@
  */
 package Generation
 
+import Generation.RSGStateMachine.{RSGFunction, map}
 import HelperUtils.{CreateLogger, Parameters}
 
 import java.util.Timer
-import RSGStateMachine.{RSGFunction, map}
-
 import scala.concurrent.duration.Duration
-import util.Random.*
+import scala.util.Random.*
 import scala.util.{Success, Try}
 
 //this is a factory for producing an instance of the simulator
 object LogMsgSimulator:
+
   import collection.immutable.ListMap
+
   val logger = CreateLogger(classOf[LogMsgSimulator])
 
   def apply(initstate: Tuple2[RandomStringGenerator, String], maxCount: Long = 0) = (new LogMsgSimulator(initstate)).ProduceLogMessage(initstate, maxCount)
 
-class LogMsgSimulator(val initstate:Tuple2[RandomStringGenerator,String]):
+class LogMsgSimulator(val initstate: Tuple2[RandomStringGenerator, String]):
+
   import LogMsgSimulator.*
 
   val randVals = scala.util.Random(Parameters.randomSeed)
 
   import scala.annotation.tailrec
-  @tailrec private def ProduceLogMessage(inputState: Tuple2[RandomStringGenerator,String], counter: Long, useCounter:Boolean = true): Tuple2[RandomStringGenerator,String] =
+
+  @tailrec private def ProduceLogMessage(inputState: Tuple2[RandomStringGenerator, String], counter: Long, useCounter: Boolean = true): Tuple2[RandomStringGenerator, String] =
     if Parameters.maxCount > 0 && counter <= 0 then inputState
     else
       if Parameters.timePeriod._1 < Parameters.timePeriod._2 then Thread.sleep(scala.util.Random.between(Parameters.timePeriod._1, Parameters.timePeriod._2))

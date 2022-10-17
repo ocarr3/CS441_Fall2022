@@ -21,13 +21,13 @@ libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient"
 
 lazy val root = (project in file("."))
   .settings(
-    name:= "LogFileGenerator",
+    name := "LogFileGenerator",
     idePackagePrefix := Some("edu.uic.cs441")
   )
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", _*) => MergeStrategy.discard
-  case _                        => MergeStrategy.first
+  case _ => MergeStrategy.first
 }
 
 libraryDependencies ++= Seq(

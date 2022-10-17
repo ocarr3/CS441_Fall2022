@@ -1,5 +1,6 @@
 package edu.uic.cs441
 package HW1Utils
+
 import HW1Utils.{HW1CreateLogger, HW1Params, MapReduceProgram, MapReduceProgram3}
 
 import org.apache.hadoop.conf.*
@@ -8,6 +9,7 @@ import org.apache.hadoop.io.*
 import org.apache.hadoop.mapred.*
 import org.apache.hadoop.util.*
 import org.slf4j.{Logger, LoggerFactory}
+
 import java.io.*
 import java.util
 import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
@@ -16,9 +18,11 @@ import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 import scala.sys.process.*
 import scala.util.{Failure, Success, Try}
+
+// Main Scala file for program that runs the other MapReduceProgramTasks, takes in arguments of input and output
 object mainRun {
 
-  def main(args: Array[String]): Unit ={
+  def main(args: Array[String]): Unit = {
     val input = args(0)
     val output = args(1)
     val logger = HW1CreateLogger(classOf[mainRun.type])
@@ -34,7 +38,7 @@ object mainRun {
     }
 
     val TaskTwo = MapReduceProgram2()
-    if (TaskTwo.runMapReduce(input, output+"2")) {
+    if (TaskTwo.runMapReduce(input, output + "2")) {
       logger.info(s"Map and reduce task 2 successful")
     } else {
       logger.info(s"Map and reduce task 2 has failed")
@@ -43,14 +47,14 @@ object mainRun {
 
     logger.info("Starting Task Three")
     val TaskThree = MapReduceProgram3()
-    if (TaskThree.runMapReduce(input, output+"3")) {
+    if (TaskThree.runMapReduce(input, output + "3")) {
       logger.info(s"Map and reduce task 3 succesful")
     } else {
       logger.info(s"Map and reduce jobs for task three have failed!")
     }
     logger.info("Starting Task Four")
     val TaskFour = MapReduceProgram4()
-    if (TaskFour.runMapReduce(input, output+"4")) {
+    if (TaskFour.runMapReduce(input, output + "4")) {
       logger.info(s"Map and reduce task 4 successful")
     } else {
       logger.info(s"Map and reduce jobs for task 4 have failed!")
@@ -58,16 +62,12 @@ object mainRun {
 
     val SortTask2 = SortProgram()
 
-    if (SortTask2.runMapReduce(output+"2", output+"2Sorted")) {
+    if (SortTask2.runMapReduce(output + "2", output + "2Sorted")) {
       logger.info(s"Sorting of task 2 output successful")
     } else {
       logger.info(s"Map and reduce jobs for task 4 have failed!")
     }
   }
-
-
-
-
 
 
 }

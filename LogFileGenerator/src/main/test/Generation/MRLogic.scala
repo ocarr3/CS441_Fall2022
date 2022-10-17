@@ -12,12 +12,12 @@ import java.util.{Date, TimeZone}
 
 // Tests for logic used in the mappers across the tasks
 
-class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
+class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester {
 
   it should "given a date it should fall between the two intervals" in {
     val method = new Methods
     val result = method.compareTimeInterval("10:00:00.000", "09:00:00.000", "11:00:00.000")
-    result should be (true)
+    result should be(true)
 
     val result2 = method.compareTimeInterval("10:000:00.000", "11:00:00.000", "12:00:00.000")
     result2 should not be (true)
@@ -35,7 +35,7 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
     val regexNotFound = pattern.findFirstMatchIn(badString)
 
     regexFound should not be (None)
-    regexNotFound should be (None)
+    regexNotFound should be(None)
 
   }
 
@@ -47,10 +47,10 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
     val regexFound = pattern.findFirstMatchIn(genString)
     val categoryString = typeString.substring(0, typeString.indexOf(" "))
 
-    typeString should be ("INFO  HelperUtils.Parameters$ - ag1C$Jw:z)30B~C><Lag2bf3ce3S5uaf0O6j&q>q=`3+Z?N.h8/IZK")
-    genString should be ("ag1C$Jw:z)30B~C><Lag2bf3ce3S5uaf0O6j&q>q=`3+Z?N.h8/IZK")
+    typeString should be("INFO  HelperUtils.Parameters$ - ag1C$Jw:z)30B~C><Lag2bf3ce3S5uaf0O6j&q>q=`3+Z?N.h8/IZK")
+    genString should be("ag1C$Jw:z)30B~C><Lag2bf3ce3S5uaf0O6j&q>q=`3+Z?N.h8/IZK")
     regexFound should not be (None)
-    categoryString should be ("INFO")
+    categoryString should be("INFO")
   }
 
   it should "given a time in a string and a interval in a string they should be parsed into dates and get the millis" in {
@@ -64,8 +64,8 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
     val bottomInterval = (timeDate.getTime.toDouble / intervalDate.getTime.toDouble).floor.toInt
     val topInterval = (timeDate.getTime.toDouble / intervalDate.getTime.toDouble).ceil.toInt
 
-    bottomInterval should be (1141)
-    topInterval should be (1142)
+    bottomInterval should be(1141)
+    topInterval should be(1142)
   }
 
 
@@ -81,8 +81,8 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
     val bottomMillis = method.getBottomIntervalTime(timeDate, intervalDate)
     val topMillis = method.getTopIntervalTime(timeDate, intervalDate)
 
-    bottomMillis should be (50850000)
-    topMillis should be (50880000)
+    bottomMillis should be(50850000)
+    topMillis should be(50880000)
 
     val bottomDate = Instant.ofEpochMilli(bottomMillis)
     val topDate = Instant.ofEpochMilli(topMillis)
@@ -90,11 +90,11 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
     val bottomTimeKey = bottomDate.toString.substring(bottomDate.toString.indexOf("T") + 1, bottomDate.toString.indexOf("Z"))
     val topTimeKey = topDate.toString.substring(topDate.toString.indexOf("T") + 1, topDate.toString.indexOf("Z"))
 
-    bottomTimeKey should be ("14:07:30")
-    topTimeKey should be ("14:08:00")
+    bottomTimeKey should be("14:07:30")
+    topTimeKey should be("14:08:00")
 
   }
-  
+
 
   class Methods {
     def compareTimeInterval(log: String, min: String, max: String): Boolean =
@@ -109,13 +109,9 @@ class MRLogic extends AnyFlatSpec with Matchers with PrivateMethodTester{
       return false
 
     def getBottomIntervalTime(logDate: Date, intervalDate: Date): Long =
-      //println("getting bottoms : " + logDate.toString + " " + intervalDate.toString)
       val getLog = logDate.getTime
       val getInt = intervalDate.getTime
-      //println("getLog: " + getLog)
-      //println("getInt: " + getInt)
       val intervalTimeMillis = ((getLog).toDouble / (getInt).toDouble).floor.toInt
-      //println("getting bottom millis: " + intervalTimeMillis)
       val intervalTime = intervalTimeMillis * intervalDate.getTime
       intervalTime
 

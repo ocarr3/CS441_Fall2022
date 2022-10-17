@@ -8,32 +8,30 @@ import org.apache.hadoop.mapred.*
 import org.apache.hadoop.mapred.lib.MultipleInputs
 import org.apache.hadoop.util.*
 
-import scala.util.matching.Regex
 import java.io.*
 import java.text.SimpleDateFormat
 import java.time.{Instant, ZoneId}
-import java.util.{Calendar, Date, TimeZone}
 import java.util
+import java.util.{Calendar, Date, TimeZone}
+import scala.concurrent.ExecutionContext.global
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.io.Source
 import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 import scala.sys.process.*
-import scala.concurrent.ExecutionContext.global
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutor
-
+import scala.util.matching.Regex
 
 
 // Functions that use the millis since the epoch to calculate time intervals based on given choice by the user
 // Lower bound for the interval requires rounding down and upper bound rounding upwards
-def getBottomIntervalTime(logDate : Date, intervalDate : Date) : Long =
+def getBottomIntervalTime(logDate: Date, intervalDate: Date): Long =
   val getLog = logDate.getTime
   val getInt = intervalDate.getTime
   val intervalTimeMillis = ((getLog).toDouble / (getInt).toDouble).floor.toInt
   val intervalTime = intervalTimeMillis * intervalDate.getTime
   intervalTime
-  
-def getTopIntervalTime(logDate : Date, intervalDate : Date) : Long =
+
+def getTopIntervalTime(logDate: Date, intervalDate: Date): Long =
   val intervalTimeMillis = (logDate.getTime.toDouble / intervalDate.getTime.toDouble).ceil.toInt
   val intervalTime = intervalTimeMillis * intervalDate.getTime
   intervalTime
@@ -46,7 +44,7 @@ class Map2 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritab
   private final val one = new IntWritable(1)
   private val word = new Text()
   val pattern: Regex = "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}".r
-  
+
   @throws[IOException]
   override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
     val line: String = value.toString
@@ -61,7 +59,7 @@ class Map2 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritab
         val format = new SimpleDateFormat("HH:mm:ss.SSS")
         format.setTimeZone(TimeZone.getTimeZone("GMT"))
         println("TIME STRING: " + timeString) //Parse the found date and the chosen interval from HW1Params
-        val interval = HW1Params.secInterval 
+        val interval = HW1Params.secInterval
         val logTime = format.parse(timeString)
         val intervalTime = format.parse(interval)
 
@@ -77,8 +75,8 @@ class Map2 extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritab
         val topDateString = topDate.toString
 
         // Combine the newfound times into the key for the mapper 
-        val bottomTimeKey = bottomDateString.substring(bottomDateString.indexOf("T")+1, bottomDateString.indexOf("Z"))
-        val topTimeKey = topDateString.substring(topDateString.indexOf("T")+1, topDateString.indexOf("Z"))
+        val bottomTimeKey = bottomDateString.substring(bottomDateString.indexOf("T") + 1, bottomDateString.indexOf("Z"))
+        val topTimeKey = topDateString.substring(topDateString.indexOf("T") + 1, topDateString.indexOf("Z"))
         val key = bottomTimeKey + " - " + topTimeKey
 
         if (typeString.contains("ERROR") && regexFound.isDefined) { // Only map lines with ERROR and injected string for task 2
@@ -95,9 +93,10 @@ class Reduce2 extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWri
     val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
     output.collect(key, new IntWritable(sum.get()))
 
-class MapReduceProgram2(){
+class MapReduceProgram2() {
   implicit val ec: ExecutionContextExecutor = ExecutionContext.global
-  def runMapReduce(inputPath: String, outputPath : String) : Boolean =
+
+  def runMapReduce(inputPath: String, outputPath: String): Boolean =
     val conf: JobConf = new JobConf(this.getClass)
     conf.setJobName("MapReduceTaskOne")
     //conf.set("fs.defaultFS", "local")
