@@ -3,7 +3,7 @@ Grader: Aditya Kanthale
 
 Grading Evaluation:
 - only some basic map/reduce or CORBA examples from some repos are given and nothing else is done: zero grade;
-	* fully functional: -0%
+	* fully functional: -3%
 - having less than five unit and/or integration scalatests: up to 10% lost;
 	* tests present: -0%
 - missing comments and explanations from your program: up to 10% lost;
@@ -19,10 +19,13 @@ Grading Evaluation:
 - no instructions in README.md on how to install and run your program: up to 10% lost;
 	* instructions present: -0%
 - the program crashes without completing the core functionality: up to 15% lost;
-	* program doesn't compile: -0%
+	* program doesn't compile: -1%
 - the documentation exists but it is insufficient to understand your program design and models and how you assembled and deployed all components of your mappers and reducers: up to 15% lost;
 	* documentation exists: -0%
 
-The code doesn't compile!
+Good job overall
+Deductions for:
+    missing plugins.sbt file
+    distribution and sort by error count vary from the hw description
 
-Final Grade: 0%
+Final Grade: 11%
